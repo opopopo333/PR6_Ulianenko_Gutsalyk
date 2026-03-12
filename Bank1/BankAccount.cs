@@ -13,6 +13,9 @@ namespace BankAccountNS
     {
         // Поле хранит имя клиента, только для чтения после инициализации
         private readonly string m_customerName;
+        public const string DebitAmountExceedsBalanceMessage = "Debit amount exceeds balance";
+        public const string DebitAmountLessThanZeroMessage = "Debit amount is less than zero";
+        public const string CreditAmountLessThanZeroMessage = "Credit amount is less than zero";
 
         // Поле хранит текущий баланс счёта
         private double m_balance;
@@ -69,15 +72,13 @@ namespace BankAccountNS
             // Проверка: нельзя снять больше, чем есть на счёте
             if (amount > m_balance)
             {
-                throw new ArgumentOutOfRangeException(nameof(amount),
-                    "Сумма снятия не может превышать текущий баланс.");
+                throw new ArgumentOutOfRangeException(nameof(amount),DebitAmountExceedsBalanceMessage);
             }
 
             // Проверка: сумма должна быть неотрицательной
             if (amount < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(amount),
-                    "Сумма снятия не может быть отрицательной.");
+                throw new ArgumentOutOfRangeException(nameof(amount), DebitAmountLessThanZeroMessage);
             }
             // Уменьшаем баланс на указанную сумму
             m_balance -= amount;
@@ -95,8 +96,7 @@ namespace BankAccountNS
             // Проверка: нельзя зачислить отрицательную сумму
             if (amount < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(amount),
-                    "Сумма пополнения не может быть отрицательной.");
+                throw new ArgumentOutOfRangeException(nameof(amount),CreditAmountLessThanZeroMessage);
             }
 
             // Увеличиваем баланс на указанную сумму
